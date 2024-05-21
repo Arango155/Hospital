@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ARANGO - Registro de Facturas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                       <h4>Registro de Facturas</h4>
+                    </div>
+       
+                    <div class="card-body">
+                        <!-- Formulario que envía los datos al servlet -->
+                        <form action="RegistrarFacturas" method="post" onsubmit="return validarFormulario()">
+                            
+                            <div class="form-group">
+                                <label for="DPI">DPI</label>
+                                <input type="number" class="form-control" id="DPI" name="DPI" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="MONTO">Monto</label>
+                                <input type="number" step="0.01" class="form-control" id="MONTO" name="MONTO" required>
+                            </div>
+                           <div class="form-group">
+                                <label for="FECHAEMISION">Fecha de Emisión</label>
+                                <input type="date" class="form-control" id="FECHAEMISION" name="FECHAEMISION" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ESTADO">Estado</label>
+                                <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Factura</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        function validarFormulario() {
+            var DPI = document.getElementById("DPI").value;
+            var MONTO = document.getElementById("MONTO").value;
+            var FECHAEMISION = document.getElementById("FECHAEMISION").value;
+            var ESTADO = document.getElementById("ESTADO").value;
+
+            if (DPI === "" || MONTO === "" || FECHAEMISION === "" || ESTADO === "") {
+                alert("Por favor, complete todos los campos requeridos");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

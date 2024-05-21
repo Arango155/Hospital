@@ -260,8 +260,8 @@ nav {
   font-size: 25px;
   color: black;
 
-  /* 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+   
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 
 }
 
@@ -417,6 +417,7 @@ li {
 .leftm {
   float: left;
   margin: 3px;
+  display: flex;
 }
 
 .right {
@@ -824,6 +825,10 @@ p {
 
 }
 
+hr{
+    color:black !important;
+}
+
 
 
 a:hover {
@@ -833,6 +838,7 @@ a:hover {
 
 .open {
   float: right;
+  margin: 1%;
 }
 
 .menu a {
@@ -849,18 +855,7 @@ a:hover {
   background-color: rgb(196, 196, 196);
 }
 
-@media (min-width: 768px) {
 
-
-
-  .open {
-    display: none;
-  }
-
-  .leftm {
-    display: none;
-  }
-}
 
 @media (max-width: 767px) {
 
@@ -891,13 +886,7 @@ a:hover {
     display: inline;
   }
 
-  .items {
-    display: none;
-  }
 
-  .elements {
-    display: none;
-  }
 
 
   .info {
