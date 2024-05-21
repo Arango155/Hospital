@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Registro de Clientes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Registro de Medicamento</h4>
+                    </div>
+       
+                    <div class="card-body">
+                        <!-- Formulario que envía los datos al servlet -->
+                        <form action="RegistrarMedicamento" method="post">
+                            
+                            <div class="form-group">
+                                <label for="MEDICAMENTOID">MEDICAMENTOID</label>
+                                <input type="text" class="form-control" id="MEDICAMENTOID" name="MEDICAMENTOID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="NOMBRE">Nombre</label>
+                                <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="DESCRIPCION">DESCRIPCION</label>
+                                <input type="text" class="form-control" id="DESCRIPCION" name="DESCRIPCION" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="PRECIO">PRECIO</label>
+                                <input type="text" class="form-control" id="PRECIO" name="PRECIO" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Paciente</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+        function validarFormulario() {
+            // Lógica de validación del formulario (si es necesario)
+            
+            // Ejemplo de alerta de error
+            // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
+            var MEDICAMENTOID = document.getElementById("MEDICAMENTOID").value;
+            var NOMBRE = document.getElementById("NOMBRE").value;
+            var DESCRIPCION = document.getElementById("DESCRIPCION").value;
+            var PRECIO = document.getElementById("PRECIO").value;
+
+            // Verificar si los campos requeridos están vacíos
+            if (MEDICAMENTOID === "" || MEDICAMENTOID === "") {
+                alert("Por favor, complete todos los campos requeridos");
+                return false; // Detener el envío del formulario
+            }
+            
+            // Aquí puedes agregar más lógica de validación según tus necesidades
+            
+            return true; // Permitir el envío del formulario si pasa todas las validaciones
+        }
+    </script>
+</body>
+</html>

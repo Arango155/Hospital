@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Registro de Clientes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Registro de Pacientes</h4>
+                    </div>
+       
+                    <div class="card-body">
+                        <!-- Formulario que envía los datos al servlet -->
+                        <form action="RegistrarPaciente" method="post">
+                            
+                            <div class="form-group">
+                                <label for="DPI">DPI</label>
+                                <input type="text" class="form-control" id="DPI" name="DPI" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="NOMBRE">Nombre</label>
+                                <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="NOMBRE">EDAD</label>
+                                <input type="text" class="form-control" id="EDAD" name="EDAD" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="NOMBRE">GENERO</label>
+                                <input type="text" class="form-control" id="GENERO" name="GENERO" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Paciente</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+        function validarFormulario() {
+            // Lógica de validación del formulario (si es necesario)
+            
+            // Ejemplo de alerta de error
+            // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
+            var DPI = document.getElementById("DPI").value;
+            var NOMBRE = document.getElementById("NOMBRE").value;
+            var EDAD = document.getElementById("EDAD").value;
+            var GENERO = document.getElementById("GENERO").value;
+
+            // Verificar si los campos requeridos están vacíos
+            if (DPI === "" || DPI === "") {
+                alert("Por favor, complete todos los campos requeridos");
+                return false; // Detener el envío del formulario
+            }
+            
+            // Aquí puedes agregar más lógica de validación según tus necesidades
+            
+            return true; // Permitir el envío del formulario si pasa todas las validaciones
+        }
+    </script>
+</body>
+</html>
