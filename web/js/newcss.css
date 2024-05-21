@@ -1,0 +1,49 @@
+.logo-img {
+    max-width: 170px; /* Ajusta este valor según el tamaño deseado del logo */
+    max-height: 170px;
+}
+
+
+.navbar {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    display: none; /* Ocultar en dispositivos móviles */
+}
+
+@media (min-width: 768px) {
+    .carousel-caption {
+        display: block; /* Mostrar en pantallas medianas y más grandes */
+    }
+}
+.contacto {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+.carousel {
+    max-height: 600px; /* Altura fija del carrusel */
+    overflow: hidden; /* Ocultar cualquier contenido que se salga del área definida */
+}
+.carousel-inner,
+.carousel-item {
+    height: 100%; /* Ajustar la altura del contenedor y los elementos del carrusel */
+}
+.nav-link {
+    font-size: 18px;
+    font-weight: bold;
+}
+.navbar-brand img {
+    height: 50px;
+}
+body {
+    background-image: url('img/aaff.jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: 'Montserrat', sans-serif;
+}
