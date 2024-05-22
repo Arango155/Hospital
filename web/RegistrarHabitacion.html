@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Registro de Habitacion</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Registro de Habitacion</h4>
+                    </div>
+       
+                    <div class="card-body">
+                        <!-- Formulario que envía los datos al servlet -->
+                        <form action="RegistrarHabitacion" method="post">
+                            
+                            <div class="form-group">
+                                <label for="HABITACIONID">HABITACIONID</label>
+                                <input type="text" class="form-control" id="HABITACIONID" name="HABITACIONID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="NUMEROHABITACION">NUMEROHABITACION</label>
+                                <input type="text" class="form-control" id="NUMEROHABITACION" name="NUMEROHABITACION" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="TIPO">TIPO</label>
+                                <input type="text" class="form-control" id="TIPO" name="TIPO" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="ESTADO">ESTADO</label>
+                                <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Registrar cama</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+        function validarFormulario() {
+            // Lógica de validación del formulario (si es necesario)
+            
+            // Ejemplo de alerta de error
+            // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
+            var CAMAID = document.getElementById("CAMAID").value;
+            var HABITACIONID = document.getElementById("HABITACIONID").value;
+            var NUMEROCAMA = document.getElementById("NUMEROCAMA").value;
+            var ESTADO = document.getElementById("ESTADO").value;
+
+            // Verificar si los campos requeridos están vacíos
+            if (DPI === "" || DPI === "") {
+                alert("Por favor, complete todos los campos requeridos");
+                return false; // Detener el envío del formulario
+            }
+            
+            // Aquí puedes agregar más lógica de validación según tus necesidades
+            
+            return true; // Permitir el envío del formulario si pasa todas las validaciones
+        }
+    </script>
+</body>
+</html>
