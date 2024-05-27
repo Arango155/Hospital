@@ -71,7 +71,7 @@ public class loginServlet extends HttpServlet {
                     out.write("{\"status\":\"success\",\"redirect\":\"home.html\"}");
                 }
             } else {
-                out.write("{\"status\":\"error\",\"message\":\"Invalid username or password.\"}");
+                out.write("{\"status\":\"error\",\"message\":\"Las credenciales no son validas.\"}");
             }
 
             resultSet.close();

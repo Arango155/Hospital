@@ -358,15 +358,7 @@ a {
   font-size: 1.5rem;
 }
 
-.language {
-  margin: none;
-  padding: none;
-  max-width: 10%;
 
-  cursor: pointer;
-  list-style: unset;
-  text-decoration: unset;
-}
 
 
 
@@ -807,7 +799,8 @@ p {
 
 
 /* Sidebar */
-
+/*  width: 0;
+  max-width: 300px;*/
 
 .menu {
   background: var(--main-color);
@@ -815,8 +808,7 @@ p {
   top: 0;
   left: 0;
   height: 100%;
-  width: 0;
-  max-width: 200px;
+
   z-index: 1;
   color: var(--fifth-color);
   overflow-x: hidden;
@@ -941,7 +933,7 @@ a:hover {
 
   .hover-div {
     padding: unset;
-    padding-left: 20%;
+    padding-left: 10%;
   }
 
   .links {
