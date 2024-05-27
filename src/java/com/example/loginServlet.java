@@ -42,7 +42,7 @@ public class loginServlet extends HttpServlet {
             // Replace with your Oracle database connection parameters
           String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
             String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
-            String dbUser = "USARIO_CONNOR";
+            String dbUser = "HOSPITAL";
             String dbPassword = "1234";
 
 
