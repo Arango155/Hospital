@@ -1,0 +1,129 @@
+  
+    body {
+      font-family: "Karla", sans-serif;
+      --main-color: white;
+      --second-color: black;
+      --fifth-color: #f6f6f6;
+      --third-color: black;
+      --blue-color: #0973FD;
+    }
+
+    .dark {
+      --main-color: #191919;
+      --third-color: white;
+      background-color: var(--main-color);
+      --second-color: #D1D1D1;
+      --fifth-color: #D1D1D1;
+      --fourth-color: #262626;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p,
+    a,
+    span {
+      color: var(--third-color);
+    }
+
+    .card {
+      border-radius: 5%;
+      text-align: left;
+      max-width: 15rem;
+      margin: 10px;
+      color: black;
+      background-color: var(--fifth-color);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 5% 5% 0 0;
+    }
+nav {
+
+  cursor: pointer;
+  z-index: 99;
+  position: sticky !important;
+  top: 0;
+  background: var(--main-color);
+  width: 100%;
+  height: 60px;
+  display: inline-block;
+  font-size: 25px;
+  color: black;
+
+   
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+
+}
+
+    .menu {
+      background: var(--main-color);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      max-width: 200px;
+      z-index: 1;
+      color: var(--fifth-color);
+      overflow-x: hidden;
+      padding-top: 10px;
+      transition: 0.5s;
+    }
+
+    .menu a {
+      padding: 15px 25px;
+      text-decoration: none;
+      font-size: 20px;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .menu a:hover {
+      background-color: rgb(196, 196, 196);
+    }
+
+    hr {
+      color: black !important;
+    }
+
+    .open {
+      float: right;
+      margin: 1%;
+    }
+    
+  .hover-div {
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+
+  cursor: pointer;
+}.leftm {
+    float: left;
+    margin: 3px;
+    display: flex;
+}
+.hover-div i:hover {
+  color: #c0bfbf;
+
+}
+a {
+  text-decoration: unset;
+  color: var(--second-color);
+}
+
+li {
+  list-style: none;
+  padding: none;
+  margin: none;
+}
+
+a:hover {
+  cursor: pointer;
+
+}
+  

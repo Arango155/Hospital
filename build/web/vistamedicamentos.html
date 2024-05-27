@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Four Cards</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/styles2.css" />
+  <script src="js/javascript.js"></script>
+
+</head>
+
+<body>
+
+
+  <nav>
+    <div>
+      <div class="menu" id="menu">
+        <a class="close" onclick="closeMenu()" href="javascript:void(0)"><i class="bi bi-x"></i></a>
+        <a href="home.html"><i class="bi bi-hospital"> </i>Home</a>
+        <hr>
+        <a href="index.html"><i id="aboutme" class="bi bi-door-open"> </i>SALIR</a>
+        <hr>
+     
+        <a href="#contact"><i class="bi bi-at"> </i>CONTACTANOS</a>
+      </div>
+
+      <label class="open">
+        <a onclick="openMenu()"><i class="bi bi-list"></i></a>
+      </label>
+      <div class="leftm">
+        <div class="hover-div">
+          <i class="bi bi-translate"></i>
+          <a onclick="darkMode()" id="dark">
+            <span><i class="bi bi-moon" id="icon"></i></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <br><br><br><br><br>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-3 mb-4">
+        <div class="card">
+          <img class="card-img-top" src="https://wordpress.mediadoma.com/wp-content/uploads/2022/01/fixed-header-table-750x425.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Agregar medicamento</h5>
+            <p class="card-text">Mediante el siguiente botón puede registrar, editar y eliminar medicamentos</p>
+                      <button onclick="window.location.href='RegistrarMedicamento.html'" type="button" class="btn btn-primary bi bi-plus">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="card">
+          <img class="card-img-top" src="https://www.cubicfactory.com/wordpress/wp-content/uploads/2016/12/tablas_stacktable_bootstrap1.gif" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Tabla de medicamentos</h5>
+            <p class="card-text">En el siguiente botón podrá ver los registros de la tabla de medicamentos</p>
+                <button onclick="window.location.href='RegistrodeEspecialidades.html'" type="button" class="btn btn-primary bi bi-eye">Ver tabla</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="card">
+          <img class="card-img-top" src="https://wordpress.mediadoma.com/wp-content/uploads/2022/01/fixed-header-table-750x425.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Agregar una prescripción</h5>
+            <p class="card-text">Mediante el siguiente botón puede agregar una prescripción médica</p>
+                      <button onclick="window.location.href='RegistrarPrescripcion.html'" type="button" class="btn btn-primary bi bi-plus">Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 mb-4">
+        <div class="card">
+          <img class="card-img-top" src="https://www.cubicfactory.com/wordpress/wp-content/uploads/2016/12/tablas_stacktable_bootstrap1.gif" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Tabla de prescripciones médicas</h5>
+            <p class="card-text">En el siguiente botón podrá ver los registros de la tabla de prescripciones médicas</p>
+                            <button onclick="window.location.href='RegistrodeEspecialidades.html'" type="button" class="btn btn-primary bi bi-eye">Ver tabla</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="js/javascript.js"></script>
+
+</body>
+
+</html>
