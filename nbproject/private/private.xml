@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/js/javascript.js</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/RegistrodeEspecialidades.html</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/login.html</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/src/java/com/example/RegistrarPaciente.java</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/RegistrarPrescripcion.html</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/src/java/com/example/InsertarPrescripcionServlet.java</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/RegistrarCama.html</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/src/java/com/example/RegistrarCama.java</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/src/java/com/example/RegistrarPrescripcion.java</file>
             <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/index.html</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/css/styles.css</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/RegistrodeDoctores.html</file>
         </group>
     </open-files>
 </project-private>

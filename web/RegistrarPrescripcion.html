@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Registro de Clientes</title>
+    <title>Registro de Prescripciones</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 
@@ -12,7 +12,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h4>Registrar Prescripcion</h4>
+                        <h4>Registro de Prescripciones</h4>
                     </div>
        
                     <div class="card-body">
@@ -20,26 +20,18 @@
                         <form action="RegistrarPrescripcion" method="post">
                             
                             <div class="form-group">
-                                <label for="PRESCRIPCIONID">PRESCRIPCIONID</label>
-                                <input type="text" class="form-control" id="PRESCRIPCIONID" name="PRESCRIPCIONID" required>
-                            </div>
-                            <div class="form-group">
                                 <label for="DPI">DPI</label>
                                 <input type="text" class="form-control" id="DPI" name="DPI" required>
                             </div>
-                             <div class="form-group">
-                                <label for="MEDICAMENTOID">MEDICAMENTOID</label>
+                            <div class="form-group">
+                                <label for="MEDICAMENTOID">ID del Medicamento</label>
                                 <input type="text" class="form-control" id="MEDICAMENTOID" name="MEDICAMENTOID" required>
                             </div>
                              <div class="form-group">
-                                <label for="CANTIDAD">CANTIDAD</label>
+                                <label for="CANTIDAD">Cantidad</label>
                                 <input type="text" class="form-control" id="CANTIDAD" name="CANTIDAD" required>
                             </div>
-                            <div class="form-group">
-                                <label for="FECHA">FECHA</label>
-                                <input type="text" class="form-control" id="FECHA" name="FECHA" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Registrar prescripcion</button>
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Prescripción</button>
                         </form>
                     </div>
                 </div>
@@ -56,12 +48,11 @@
             // Ejemplo de alerta de error
             // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
             var DPI = document.getElementById("DPI").value;
-            var NOMBRE = document.getElementById("NOMBRE").value;
-            var EDAD = document.getElementById("EDAD").value;
-            var GENERO = document.getElementById("GENERO").value;
+            var MEDICAMENTOID = document.getElementById("MEDICAMENTOID").value;
+            var CANTIDAD = document.getElementById("CANTIDAD").value;
 
             // Verificar si los campos requeridos están vacíos
-            if (DPI === "" || DPI === "") {
+            if (DPI === "" || MEDICAMENTOID === "" || CANTIDAD === "") {
                 alert("Por favor, complete todos los campos requeridos");
                 return false; // Detener el envío del formulario
             }

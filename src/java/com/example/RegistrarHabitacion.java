@@ -30,7 +30,7 @@ public class RegistrarHabitacion extends HttpServlet {
         try {
             String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
             String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe"; // Reemplaza con tu URL de conexión
-            String usuario = "c##hospital"; // Reemplaza con tu usuario de Oracle
+            String usuario = "HOSPITAL"; // Reemplaza con tu usuario de Oracle
             String contraseña = "1234"; // Reemplaza con tu contraseña de Oracle
 
             Class.forName(jdbcDriver);

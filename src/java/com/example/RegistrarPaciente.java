@@ -1,5 +1,3 @@
-package com.example;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -51,7 +49,7 @@ public class RegistrarPaciente extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 out.println("<html><body>");
                 out.println("<h3>¡Registro exitoso!</h3>");
-                out.println("<p>Los datos del paciente se han registrado correctamente en la base de datos.</p>");
+                out.println("<p>Los datos del medicamento se han registrado correctamente en la base de datos.</p>");
                 out.println("<a href=\"index.html\">Regresar al formulario</a>");
                 out.println("</body></html>");
             } else {

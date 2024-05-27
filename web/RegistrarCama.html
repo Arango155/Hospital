@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+        <meta charset="UTF-8">
+
     <title> Registro de cama</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
@@ -46,26 +48,27 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script>
-        function validarFormulario() {
-            // Lógica de validación del formulario (si es necesario)
-            
-            // Ejemplo de alerta de error
-            // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
-            var CAMAID = document.getElementById("CAMAID").value;
-            var HABITACIONID = document.getElementById("HABITACIONID").value;
-            var NUMEROCAMA = document.getElementById("NUMEROCAMA").value;
-            var ESTADO = document.getElementById("ESTADO").value;
+    function validarFormulario() {
+        // Lógica de validación del formulario (si es necesario)
 
-            // Verificar si los campos requeridos están vacíos
-            if (DPI === "" || DPI === "") {
-                alert("Por favor, complete todos los campos requeridos");
-                return false; // Detener el envío del formulario
-            }
-            
-            // Aquí puedes agregar más lógica de validación según tus necesidades
-            
-            return true; // Permitir el envío del formulario si pasa todas las validaciones
+        // Ejemplo de alerta de error
+        // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
+        var CAMAID = document.getElementById("CAMAID").value;
+        var HABITACIONID = document.getElementById("HABITACIONID").value;
+        var NUMEROCAMA = document.getElementById("NUMEROCAMA").value;
+        var ESTADO = document.getElementById("ESTADO").value;
+
+        // Verificar si los campos requeridos están vacíos
+        if (CAMAID === "" || HABITACIONID === "" || NUMEROCAMA === "" || ESTADO === "") {
+            alert("Por favor, complete todos los campos requeridos");
+            return false; // Detener el envío del formulario
         }
-    </script>
+
+        // Aquí puedes agregar más lógica de validación según tus necesidades
+
+        return true; // Permitir el envío del formulario si pasa todas las validaciones
+    }
+</script>
+
 </body>
 </html>
