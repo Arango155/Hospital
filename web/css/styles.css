@@ -439,13 +439,6 @@ li {
 
 
 
-
-
-/* body {
-  height: -webkit-fill-available;
-  margin: 0;
-} */
-
 .iconpic img {
   width: 200px;
   height: 200px;
@@ -506,61 +499,6 @@ main {
   align-items: center;
 }
 
-#project-details h1 {
-  font-size: 30px;
-  text-align: center;
-}
-
-#project-details img {
-
-  border-radius: 5%;
-
-}
-
-#project-details video {
-  padding: 10% 5%;
-  text-align: center;
-  align-items: center;
-}
-
-/* .card {
-  border-radius: 5%;
-  text-align: left;
-  align-items: left;
-  width: 30%;
-  height: 200px;
-  font-size: 20px;
-  margin: 10px;
-  color: black;
-  padding: 0 10px;
-  background-color: var(--fourth-color);
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  word-wrap: break-word;
-} */
-
-
-.card {
-  border-radius: 5%;
-  text-align: left;
-  align-items: left;
-  max-width: 30%;
-  /* Ancho máximo del cuadro */
-  width: 100%;
-  /* Hacer que ocupe el ancho máximo disponible */
-  font-size: 20px;
-  margin: 10px;
-  color: black;
-  padding: 0 10px;
-  background-color: var(--fourth-color);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  /* Evitar que el contenido se desborde */
-  word-wrap: break-word;
-  /* Romper palabras largas */
-}
-
-
 
 .elements a {
   margin-left: 20px;
@@ -572,14 +510,6 @@ main {
 }
 
 
-
-#gray {
-  color: gray !important;
-}
-
-#black {
-  color: black !important;
-}
 
 .containercode {
   width: 90%;
@@ -608,36 +538,6 @@ main {
 }
 
 
-
-
-.card i {
-  padding-top: 4%;
-  margin: 3%;
-  float: left;
-  text-align: left;
-
-}
-
-.card p {
-  font-size: 12px;
-  padding-bottom: 5%;
-}
-
-.card span {
-  margin-top: 1rem;
-  font-weight: bold;
-
-}
-
-.card img {
-  padding-top: 15%;
-  width: 50%;
-
-}
-
-.card:hover {
-  background-color: var(--fifth-color);
-}
 
 strong {
   font-weight: unset;
@@ -763,28 +663,6 @@ p {
 
 }
 
-#skills,
-#project {
-  padding-top: 3%;
-}
-
-#web {
-  display: block;
-}
-
-#industrial {
-  display: none;
-}
-
-
-
-#codingskills {
-  display: flex;
-}
-
-#softskills {
-  display: none;
-}
 
 .section h4 {
 
@@ -971,22 +849,13 @@ a:hover {
     margin-top: 5%;
   }
 
-  #project-details video {
-    width: 100%;
-  }
 
+}
 
-
-
-  #project-details {
-    text-align: center;
-    align-items: center;
-  }
-
-  #project-details img {
-    border-radius: 5%;
-    width: 100%;
-  }
-
-
+@media (min-width: 576px) {
+    .col-sm-3 {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: unset !important;
+    }
 }
