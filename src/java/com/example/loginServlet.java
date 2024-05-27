@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +45,7 @@ public class loginServlet extends HttpServlet {
             // Replace with your Oracle database connection parameters
           String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
             String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
+          
             String dbUser = "HOSPITAL";
             String dbPassword = "1234";
 
@@ -62,9 +66,9 @@ public class loginServlet extends HttpServlet {
 
             if (count > 0) {
                 if ("admin".equals(userType)) {
-                    out.write("{\"status\":\"success\",\"redirect\":\"adminDashboard.html\"}");
+                    out.write("{\"status\":\"success\",\"redirect\":\"home.html\"}");
                 } else {
-                    out.write("{\"status\":\"success\",\"redirect\":\"userDashboard.html\"}");
+                    out.write("{\"status\":\"success\",\"redirect\":\"home.html\"}");
                 }
             } else {
                 out.write("{\"status\":\"error\",\"message\":\"Invalid username or password.\"}");
