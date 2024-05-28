@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
      
-  <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
     
     <title>ARANGO - Registro de Facturas</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -21,7 +20,7 @@
        
                     <div class="card-body">
                         <!-- Formulario que envía los datos al servlet -->
-                        <form action="RegistrarFacturas" method="post" onsubmit="return validarFormulario()">
+                        <form id="facturaForm" action="RegistrarFacturas" method="post" onsubmit="return validarFormulario()">
                             
                             <div class="form-group">
                                 <label for="DPI">DPI</label>
@@ -49,7 +48,44 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
+        $(document).ready(function() {
+            $('#facturaForm').submit(function(event) {
+                event.preventDefault(); // Evitar envío del formulario por defecto
+                var form = $(this);
+                var formData = form.serialize(); // Obtener datos del formulario
+                // Enviar solicitud AJAX al servlet
+                $.ajax({
+                    type: 'POST',
+                    url: 'RegistrarFacturas', // URL del servlet
+                    data: formData,
+                    success: function(response) {
+                        // Mostrar SweetAlert con el mensaje de éxito
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registro exitoso',
+                            text: 'La factura se ha registrado correctamente.',
+                            onClose: function() {
+                                // Redirigir a página principal u otra página
+                                window.location.href = "facturas.html";
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Mostrar SweetAlert con mensaje de error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Hubo un error al registrar la factura.'
+                        });
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+
         function validarFormulario() {
             var DPI = document.getElementById("DPI").value;
             var MONTO = document.getElementById("MONTO").value;
@@ -65,3 +101,4 @@
     </script>
 </body>
 </html>
+

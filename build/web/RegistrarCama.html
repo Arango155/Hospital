@@ -1,54 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <meta charset="UTF-8">
-
-  <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
     <title> ARANGO - Registro de cama</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 
 <body>
-    
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h4>Registro de cama</h4>
-                    </div>
-       
-                    <div class="card-body">
-                        <!-- Formulario que envía los datos al servlet -->
-                        <form action="RegistrarCama" method="post">
-                            
-                            <div class="form-group">
-                                <label for="CAMAID">CAMAID</label>
-                                <input type="text" class="form-control" id="CAMAID" name="CAMAID" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="HABITACIONID">HABITACIONID</label>
-                                <input type="text" class="form-control" id="HABITACIONID" name="HABITACIONID" required>
-                            </div>
-                             <div class="form-group">
-                                <label for="NUMEROCAMA">NUMEROCAMA</label>
-                                <input type="text" class="form-control" id="NUMEROCAMA" name="NUMEROCAMA" required>
-                            </div>
-                             <div class="form-group">
-                                <label for="ESTADO">ESTADO</label>
-                                <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Registrar cama</button>
-                        </form>
-                    </div>
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Registro de cama</h4>
+                </div>
+
+                <div class="card-body">
+                    <!-- Formulario que envía los datos al servlet -->
+                    <form id="camaForm" action="RegistrarCama" method="post" onsubmit="return validarFormulario()">
+                        <div class="form-group">
+                            <label for="CAMAID">CAMAID</label>
+                            <input type="text" class="form-control" id="CAMAID" name="CAMAID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="HABITACIONID">HABITACIONID</label>
+                            <input type="text" class="form-control" id="HABITACIONID" name="HABITACIONID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="NUMEROCAMA">NUMEROCAMA</label>
+                            <input type="text" class="form-control" id="NUMEROCAMA" name="NUMEROCAMA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ESTADO">ESTADO</label>
+                            <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Registrar cama</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+    $(document).ready(function() {
+        $('#camaForm').submit(function(event) {
+            event.preventDefault(); // Evitar envío del formulario por defecto
+            var form = $(this);
+            var formData = form.serialize(); // Obtener datos del formulario
+            // Enviar solicitud AJAX al servlet
+            $.ajax({
+                type: 'POST',
+                url: 'RegistrarCama', // URL del servlet
+                data: formData,
+                success: function(response) {
+                    // Mostrar SweetAlert con el mensaje de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro exitoso',
+                        text: 'La cama se ha registrado correctamente.',
+                        onClose: function() {
+                            // Redirigir a página principal u otra página
+                            window.location.href = "RegistrarCama.html";
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Mostrar SweetAlert con mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un error al registrar la cama.'
+                    });
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+
     function validarFormulario() {
         // Lógica de validación del formulario (si es necesario)
 

@@ -1,75 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    
-    
+  <meta charset="UTF-8">
   <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
-    
-    <title> ARANGO - Registro de Clientes</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Medicamento</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-
 <body>
-    
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h4>Registro de Medicamento HOSPITAL</h4>
-                    </div>
-       
-                    <div class="card-body">
-                        <!-- Formulario que envía los datos al servlet -->
-                        <form action="RegistrarMedicamento" method="post">
-                            
-                            <div class="form-group">
-                                <label for="MEDICAMENTOID">MEDICAMENTOID</label>
-                                <input type="text" class="form-control" id="MEDICAMENTOID" name="MEDICAMENTOID" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="NOMBRE">Nombre</label>
-                                <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
-                            </div>
-                             <div class="form-group">
-                                <label for="DESCRIPCION">DESCRIPCION</label>
-                                <input type="text" class="form-control" id="DESCRIPCION" name="DESCRIPCION" required>
-                            </div>
-                             <div class="form-group">
-                                <label for="PRECIO">PRECIO</label>
-                                <input type="text" class="form-control" id="PRECIO" name="PRECIO" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Registrar Paciente</button>
-                        </form>
-                    </div>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Registro de Medicamento</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Formulario que envía los datos al servlet -->
+                    <form id="medicamentoForm" action="RegistrarMedicamento" method="post">
+                        <div class="form-group">
+                            <label for="MEDICAMENTOID">MEDICAMENTOID:</label>
+                            <input type="text" class="form-control" id="MEDICAMENTOID" name="MEDICAMENTOID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="NOMBRE">Nombre:</label>
+                            <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="DESCRIPCION">Descripción:</label>
+                            <input type="text" class="form-control" id="DESCRIPCION" name="DESCRIPCION" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="PRECIO">Precio:</label>
+                            <input type="text" class="form-control" id="PRECIO" name="PRECIO" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary bi bi-plus">Registrar Medicamento</button>
+                        <button onclick="window.location.href='vistamedicamentos.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-        function validarFormulario() {
-            // Lógica de validación del formulario (si es necesario)
-            
-            // Ejemplo de alerta de error
-            // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
-            var MEDICAMENTOID = document.getElementById("MEDICAMENTOID").value;
-            var NOMBRE = document.getElementById("NOMBRE").value;
-            var DESCRIPCION = document.getElementById("DESCRIPCION").value;
-            var PRECIO = document.getElementById("PRECIO").value;
-
-            // Verificar si los campos requeridos están vacíos
-            if (MEDICAMENTOID === "" || MEDICAMENTOID === "") {
-                alert("Por favor, complete todos los campos requeridos");
-                return false; // Detener el envío del formulario
-            }
-            
-            // Aquí puedes agregar más lógica de validación según tus necesidades
-            
-            return true; // Permitir el envío del formulario si pasa todas las validaciones
-        }
-    </script>
+    $(document).ready(function() {
+        $('#medicamentoForm').submit(function(event) {
+            event.preventDefault(); // Evitar envío del formulario por defecto
+            var form = $(this);
+            var formData = form.serialize(); // Obtener datos del formulario
+            // Enviar solicitud AJAX al servlet
+            $.ajax({
+                type: 'POST',
+                url: 'RegistrarMedicamento', // URL del servlet
+                data: formData,
+                success: function(response) {
+                    // Mostrar SweetAlert con el mensaje de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro exitoso',
+                        text: 'El medicamento se ha registrado correctamente.',
+                        onClose: function() {
+                            // Redirigir a página principal u otra página
+                            window.location.href = "RegistrarMedicamento.html";
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Mostrar SweetAlert con mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un error al registrar el medicamento.'
+                    });
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
