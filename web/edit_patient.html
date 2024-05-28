@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Paciente</title>
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+  
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>EDITAR PACIENTES</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Formulario que envía los datos al servlet -->
+                        <form id="editPatientForm">
+                            <div class="form-group">
+                                <label for="NOMBRE">Nombre:</label>
+                                <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="EDAD">Edad:</label>
+                                <input type="text" class="form-control" id="EDAD" name="EDAD" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="GENERO">Género:</label>
+                                <select class="form-control" id="GENERO" name="GENERO" required>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="FECHAINGRESO">Fecha Ingreso:</label>
+                                <input type="date" class="form-control" id="FECHAINGRESO" name="FECHAINGRESO">
+                            </div>
+                            <button type="submit" class="btn btn-primary bi bi-plus">Actualizar</button>
+                            <button onclick="window.location.href='vistapacientes.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Retrieve DPI from query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const dpi = urlParams.get('dpi');
+
+            // Fetch patient data using AJAX
+            $.getJSON("GestionPacientesServlet?action=obtener&dpi=" + dpi, function (data) {
+                // Pre-fill form fields with patient data
+                $("#NOMBRE").val(data.nombre);
+                $("#EDAD").val(data.edad);
+                $("#GENERO").val(data.genero);
+                $("#FECHAINGRESO").val(data.fechaIngreso);
+            });
+
+            // Submit form data to update patient
+            $("#editPatientForm").submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Get form data
+                var formData = {
+                    DPI: dpi,
+                    NOMBRE: $("#NOMBRE").val(),
+                    EDAD: $("#EDAD").val(),
+                    GENERO: $("#GENERO").val(),
+                    FECHA_INGRESO: $("#FECHAINGRESO").val()
+                };
+
+                // Send AJAX request to update patient
+                $.post("GestionPacientesServlet?action=editar", formData, function (response) {
+                    alert(response.message);
+                    // Redirect back to the patient list page after updating
+                    window.location.href = "TablaPacientes.html";
+                }, "json");
+            });
+        });
+    </script>
+
+</body>
+</html>

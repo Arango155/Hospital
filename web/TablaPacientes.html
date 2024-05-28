@@ -31,23 +31,11 @@
                 });
             }
 
-            window.editPatient = function(dpi) {
-                var newNombre = prompt("Ingrese el nuevo nombre:");
-                var newEdad = prompt("Ingrese la nueva edad:");
-                var newGenero = prompt("Ingrese el nuevo género:");
-                var newFechaIngreso = prompt("Ingrese la nueva fecha de ingreso (AAAA-MM-DD):");
+        window.editPatient = function(dpi) {
+    // Redirect to the edit page with the patient's DPI as a query parameter
+    window.location.href = "edit_patient.html?dpi=" + dpi;
+};
 
-                $.post("GestionPacientesServlet?action=editar", {
-                    DPI: dpi,
-                    NOMBRE: newNombre,
-                    EDAD: newEdad,
-                    GENERO: newGenero,
-                    FECHA_INGRESO: newFechaIngreso
-                }, function (response) {
-                    alert(response.message);
-                    loadPatients();
-                }, "json");
-            };
 
             
             
