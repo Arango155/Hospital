@@ -1,11 +1,11 @@
+package com.example;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,13 +21,11 @@ public class RegistrarPrescripcion extends HttpServlet {
             throws ServletException, IOException {
 
         // Obtener parámetros del formulario
+        String PRESCRIPCIONID = request.getParameter("PRESCRIPCIONID");
         String DPI = request.getParameter("DPI");
         String MEDICAMENTOID = request.getParameter("MEDICAMENTOID");
         String CANTIDAD = request.getParameter("CANTIDAD");
-        
-        // Obtener la fecha actual
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String FECHA = sdf.format(new Date());
+        String FECHA = request.getParameter("FECHA");
 
         // Establecer conexión a la base de datos Oracle
         try {
@@ -40,12 +38,13 @@ public class RegistrarPrescripcion extends HttpServlet {
             Connection conexion = DriverManager.getConnection(jdbcUrl, usuario, contraseña);
 
             // Preparar la sentencia SQL para la inserción
-            String sql = "INSERT INTO PRESCRIPCIONES (DPI, MEDICAMENTOID, CANTIDAD, FECHA) VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'))";
+            String sql = "INSERT INTO PRESCRIPCIONES (PRESCRIPCIONID, DPI, MEDICAMENTOID, CANTIDAD, FECHA) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(sql);
-            statement.setString(1, DPI);
-            statement.setString(2, MEDICAMENTOID);
-            statement.setString(3, CANTIDAD);
-            statement.setString(4, FECHA);
+            statement.setString(1, PRESCRIPCIONID);
+            statement.setString(2, DPI);
+            statement.setString(3, MEDICAMENTOID);
+            statement.setString(4, CANTIDAD);
+            statement.setString(5, FECHA);
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
@@ -54,12 +53,12 @@ public class RegistrarPrescripcion extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 out.println("<html><body>");
                 out.println("<h3>¡Registro exitoso!</h3>");
-                out.println("<p>La prescripción se ha registrado correctamente en la base de datos.</p>");
+                out.println("<p>Los datos de la prescripción se han registrado correctamente en la base de datos.</p>");
                 out.println("<a href=\"index.html\">Regresar al formulario</a>");
                 out.println("</body></html>");
             } else {
                 // Registro fallido
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar la prescripción.");
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar prescripción.");
             }
 
             statement.close();

@@ -42,6 +42,8 @@ public class GestionPacientesServlet extends HttpServlet {
                     editarPaciente(request, out, connection);
                 } else if ("borrar".equals(action)) {
                     borrarPaciente(request, out, connection);
+                } else if ("obtener".equals(action)) {
+                    obtenerPaciente(request, out, connection);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -68,9 +70,9 @@ public class GestionPacientesServlet extends HttpServlet {
                 jsonBuilder.append("{")
                            .append("\"DPI\":\"").append(resultSet.getString("DPI")).append("\",")
                            .append("\"NOMBRE\":\"").append(resultSet.getString("NOMBRE")).append("\",")
-                           .append("\"EDAD\":\"").append(resultSet.getString("EDAD")).append("\",")
+                           .append("\"EDAD\":\"").append(resultSet.getInt("EDAD")).append("\",")
                            .append("\"GENERO\":\"").append(resultSet.getString("GENERO")).append("\",")
-                           .append("\"FECHA_INGRESO\":\"").append(resultSet.getString("FECHA_INGRESO")).append("\"")
+                           .append("\"FECHA_INGRESO\":\"").append(resultSet.getDate("FECHA_INGRESO")).append("\"")
                            .append("}");
             }
         }
@@ -78,26 +80,29 @@ public class GestionPacientesServlet extends HttpServlet {
         out.write(jsonBuilder.toString());
     }
 
-    private void editarPaciente(HttpServletRequest request, PrintWriter out, Connection connection) throws SQLException {
+    private void editarPaciente(HttpServletRequest request, PrintWriter out, Connection connection) {
         String dpi = request.getParameter("DPI");
         String nombre = request.getParameter("NOMBRE");
         int edad = Integer.parseInt(request.getParameter("EDAD"));
         String genero = request.getParameter("GENERO");
         String fechaIngreso = request.getParameter("FECHA_INGRESO");
 
-        String sql = "UPDATE PACIENTES SET NOMBRE = ?, EDAD = ?, GENERO = ?, FECHA_INGRESO = TO_DATE(?, 'YYYY-MM-DD') WHERE DPI = ?";
+        String sql = "UPDATE PACIENTES SET NOMBRE = ?, EDAD = ?, GENERO = ?, FECHA_INGRESO = ? WHERE DPI = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
             statement.setInt(2, edad);
             statement.setString(3, genero);
-            statement.setString(4, fechaIngreso);
+            statement.setDate(4, java.sql.Date.valueOf(fechaIngreso));
             statement.setString(5, dpi);
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 out.write("{\"status\":\"success\",\"message\":\"Paciente actualizado correctamente.\"}");
             } else {
-                out.write("{\"status\":\"error\",\"message\":\"No se encontró el paciente.\"}");
+                out.write("{\"status\":\"error\",\"message\":\"No se encontró el paciente o no se pudo actualizar.\"}");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            out.write("{\"status\":\"error\",\"message\":\"Error al actualizar el paciente en la base de datos.\"}");
         }
     }
 
@@ -112,6 +117,28 @@ public class GestionPacientesServlet extends HttpServlet {
                 out.write("{\"status\":\"success\",\"message\":\"Paciente borrado correctamente.\"}");
             } else {
                 out.write("{\"status\":\"error\",\"message\":\"No se encontró el paciente.\"}");
+            }
+        }
+    }
+
+    private void obtenerPaciente(HttpServletRequest request, PrintWriter out, Connection connection) throws SQLException {
+        String dpi = request.getParameter("dpi");
+
+        String sql = "SELECT * FROM PACIENTES WHERE DPI = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, dpi);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    out.write("{");
+                    out.write("\"DPI\":\"" + resultSet.getString("DPI") + "\",");
+                    out.write("\"NOMBRE\":\"" + resultSet.getString("NOMBRE") + "\",");
+                    out.write("\"EDAD\":\"" + resultSet.getInt("EDAD") + "\",");
+                    out.write("\"GENERO\":\"" + resultSet.getString("GENERO") + "\",");
+                    out.write("\"FECHA_INGRESO\":\"" + resultSet.getDate("FECHA_INGRESO") + "\"");
+                    out.write("}");
+                } else {
+                    out.write("{\"status\":\"error\",\"message\":\"No se encontró el paciente.\"}");
+                }
             }
         }
     }

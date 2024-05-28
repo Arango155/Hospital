@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Camas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function loadCamas() {
+                $.getJSON("GestionCamasServlet?action=mostrar", function (data) {
+                    var tableContent = "";
+                    $.each(data, function (key, cama) {
+                        tableContent += "<tr>";
+                        tableContent += "<td>" + cama.CAMAID + "</td>";
+                        tableContent += "<td>" + cama.HABITACIONID + "</td>";
+                        tableContent += "<td>" + cama.NUMEROCAMA + "</td>";
+                        tableContent += "<td>" + cama.ESTADO + "</td>";
+                        tableContent += "<td><button class='btn btn-primary' onclick='editCama(\"" + cama.CAMAID + "\")'>Editar</button></td>";
+                        tableContent += "<td><button class='btn btn-danger' onclick='deleteCama(\"" + cama.CAMAID + "\")'>Borrar</button></td>";
+                        tableContent += "</tr>";
+                    });
+                    $("#camaTable tbody").html(tableContent);
+                });
+            }
+
+            window.editCama = function(camaId) {
+                // Redirect to the edit page with the cama's ID as a query parameter
+                window.location.href = "editarCama.html?camaId=" + camaId;
+            };
+
+            window.deleteCama = function(camaId) {
+                Swal.fire({
+                    title: "¿Está seguro de que desea borrar esta cama?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Sí",
+                    denyButtonText: "No",
+                    theme: "light"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.post("GestionCamasServlet?action=borrar", {
+                            CAMAID: camaId
+                        }, function (response) {
+                            Swal.fire({
+                                title: response.status === "success" ? "¡Cama borrada correctamente!" : "Error al borrar cama",
+                                icon: response.status === "success" ? "success" : "error"
+                            });
+                            loadCamas();
+                        }, "json");
+                    } else if (result.isDenied) {
+                        Swal.fire("Acción cancelada", "", "info");
+                    }
+                });
+            };
+
+            $("#refreshButton").click(function() {
+                loadCamas();
+            });
+
+            loadCamas();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <br> <br> <br> <br> <br>
+        <h1 class="text-center text-black">Gestión de Camas</h1>
+        <br>
+        <button onclick="window.location.href='vistahabitaciones.html'" type="button" class="btn btn-primary bi bi-arrow-return-left">Regresar</button>
+        <br> <br>
+        <table id="camaTable" class="table table-bordered table-striped table-light">
+            <thead>
+                <tr>
+                    <th>ID de Cama</th>
+                    <th>ID de Habitación</th>
+                    <th>Número de Cama</th>
+                    <th>Estado</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Contenido generado dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

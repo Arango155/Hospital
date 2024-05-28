@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Especialidades</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function loadSpecialties() {
+                $.getJSON("GestionEspecialidadesServlet?action=mostrar", function (data) {
+                    var tableContent = "";
+                    $.each(data, function (key, especialidad) {
+                        tableContent += "<tr>";
+                        tableContent += "<td>" + especialidad.ESPECIALIDADID + "</td>";
+                        tableContent += "<td>" + especialidad.NOMBRE + "</td>";
+                        tableContent += "<td><button class='btn btn-primary' onclick='editSpecialty(\"" + especialidad.ESPECIALIDADID + "\")'>Editar</button></td>";
+                        tableContent += "<td><button class='btn btn-danger' onclick='deleteSpecialty(\"" + especialidad.ESPECIALIDADID + "\")'>Borrar</button></td>";
+                        tableContent += "</tr>";
+                    });
+                    $("#specialtyTable tbody").html(tableContent);
+                });
+            }
+
+            window.editSpecialty = function(especialidadId) {
+                window.location.href = "editarEspecialidad.html?especialidadId=" + especialidadId;
+            };
+
+            window.deleteSpecialty = function(especialidadId) {
+                Swal.fire({
+                    title: "¿Está seguro de que desea borrar esta especialidad?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Sí",
+                    denyButtonText: "No",
+                    theme: "light"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.post("GestionEspecialidadesServlet?action=borrar", {
+                            ESPECIALIDADID: especialidadId
+                        }, function (response) {
+                            Swal.fire({
+                                title: response.status === "success" ? "¡Especialidad borrada correctamente!" : "Error al borrar especialidad",
+                                icon: response.status === "success" ? "success" : "error"
+                            });
+                            loadSpecialties();
+                        }, "json");
+                    } else if (result.isDenied) {
+                        Swal.fire("Acción cancelada", "", "info");
+                    }
+                });
+            };
+
+            $("#refreshButton").click(function() {
+                loadSpecialties();
+            });
+
+            loadSpecialties();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <br><br><br><br><br>
+        <h1 class="text-center text-black">Gestión de Especialidades</h1>
+        <br>
+        <button onclick="window.location.href='vistadoctores.html'" type="button" class="btn btn-primary bi bi-arrow-return-left">Regresar</button>
+        <br><br>
+        <table id="specialtyTable" class="table table-bordered table-striped table-light">
+            <thead>
+                <tr>
+                    <th>ID de Especialidad</th>
+                    <th>Nombre</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Contenido generado dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

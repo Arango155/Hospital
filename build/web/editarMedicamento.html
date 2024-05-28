@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Medicamento</title>
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>EDITAR MEDICAMENTO</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Formulario que envía los datos al servlet -->
+                        <form id="editMedicamentoForm">
+                            <div class="form-group">
+                                <label for="MEDICAMENTOID">ID de Medicamento:</label>
+                                <input type="text" class="form-control" id="MEDICAMENTOID" name="MEDICAMENTOID" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="NOMBRE">Nombre:</label>
+                                <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="DESCRIPCION">Descripción:</label>
+                                <input type="text" class="form-control" id="DESCRIPCION" name="DESCRIPCION" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="PRECIO">Precio:</label>
+                                <input type="number" class="form-control" id="PRECIO" name="PRECIO" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="CANTIDAD">Cantidad:</label>
+                                <input type="number" class="form-control" id="CANTIDAD" name="CANTIDAD" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="CANTIDADMINIMA">Cantidad Mínima:</label>
+                                <input type="number" class="form-control" id="CANTIDADMINIMA" name="CANTIDADMINIMA" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary bi bi-plus">Actualizar</button>
+                            <button onclick="window.location.href='vistamedicamentos.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Retrieve medicamento ID from query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const medicamentoId = urlParams.get('medicamentoId');
+
+            // Fetch medicamento data using AJAX
+            $.getJSON("GestionMedicamentosServlet?action=obtener&medicamentoId=" + medicamentoId, function (data) {
+                if (data.status !== 'error') {
+                    // Pre-fill form fields with medicamento data
+                    $("#MEDICAMENTOID").val(data.MEDICAMENTOID);
+                    $("#NOMBRE").val(data.NOMBRE);
+                    $("#DESCRIPCION").val(data.DESCRIPCION);
+                    $("#PRECIO").val(data.PRECIO);
+                    $("#CANTIDAD").val(data.CANTIDAD);
+                    $("#CANTIDADMINIMA").val(data.CANTIDADMINIMA);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un error al obtener los datos del medicamento.'
+                    });
+                }
+            });
+
+            // Submit form data to update medicamento
+            $("#editMedicamentoForm").submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Get form data
+                var formData = {
+                    MEDICAMENTOID: $("#MEDICAMENTOID").val(),
+                    NOMBRE: $("#NOMBRE").val(),
+                    DESCRIPCION: $("#DESCRIPCION").val(),
+                    PRECIO: $("#PRECIO").val(),
+                    CANTIDAD: $("#CANTIDAD").val(),
+                    CANTIDADMINIMA: $("#CANTIDADMINIMA").val()
+                };
+
+                // Send AJAX request to update medicamento
+                $.post("GestionMedicamentosServlet?action=editar", formData, function (response) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Redirect back to the medicamento list page after updating
+                        window.location.href = "TablaMedicamento.html";
+                    });
+                }, "json").fail(function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un error al actualizar el medicamento.'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

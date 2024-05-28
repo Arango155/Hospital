@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Doctor</title>
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>EDITAR DOCTOR</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Formulario que envía los datos al servlet -->
+                        <form id="editDoctorForm">
+                            <div class="form-group">
+                                <label for="DOCTORID">ID de Doctor:</label>
+                                <input type="text" class="form-control" id="DOCTORID" name="DOCTORID" required readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="NOMBRE">Nombre:</label>
+                                <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ESPECIALIDADID">ID de Especialidad:</label>
+                                <input type="number" class="form-control" id="ESPECIALIDADID" name="ESPECIALIDADID" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary bi bi-plus">Actualizar</button>
+                            <button onclick="window.location.href='vistaDoctores.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Retrieve doctor ID from query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const doctorId = urlParams.get('doctorId');
+
+            // Fetch doctor data using AJAX
+            $.getJSON("GestionDoctoresServlet?action=obtener&doctorId=" + doctorId, function (data) {
+                if (data.status !== 'error') {
+                    // Pre-fill form fields with doctor data
+                    $("#DOCTORID").val(data.DOCTORID);
+                    $("#NOMBRE").val(data.NOMBRE);
+                    $("#ESPECIALIDADID").val(data.ESPECIALIDADID);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un error al obtener los datos del doctor.'
+                    });
+                }
+            });
+
+            // Submit form data to update doctor
+            $("#editDoctorForm").submit(function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Get form data
+                var formData = {
+                    DOCTORID: $("#DOCTORID").val(),
+                    NOMBRE: $("#NOMBRE").val(),
+                    ESPECIALIDADID: $("#ESPECIALIDADID").val()
+                };
+
+                // Send AJAX request to update doctor
+                $.post("GestionDoctoresServlet?action=editar", formData, function (response) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Redirect back to the doctor list page after updating
+                        window.location.href = "TablaDoctores.html";
+                    });
+                }, "json").fail(function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un error al actualizar el doctor.'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

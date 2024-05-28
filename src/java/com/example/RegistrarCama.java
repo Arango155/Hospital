@@ -51,12 +51,12 @@ public class RegistrarCama extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 out.println("<html><body>");
                 out.println("<h3>¡Registro exitoso!</h3>");
-                out.println("<p>La cama se ha registrado correctamente en la base de datos.</p>");
+                out.println("<p>Los datos de la cama se han registrado correctamente en la base de datos.</p>");
                 out.println("<a href=\"index.html\">Regresar al formulario</a>");
                 out.println("</body></html>");
             } else {
                 // Registro fallido
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar cama.");
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar la cama.");
             }
 
             statement.close();

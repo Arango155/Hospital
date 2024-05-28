@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Habitaciones</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function loadHabitaciones() {
+                $.getJSON("GestionHabitacionesServlet?action=mostrar", function (data) {
+                    var tableContent = "";
+                    $.each(data, function (key, habitacion) {
+                        tableContent += "<tr>";
+                        tableContent += "<td>" + habitacion.HABITACIONID + "</td>";
+                        tableContent += "<td>" + habitacion.NUMEROHABITACION + "</td>";
+                        tableContent += "<td>" + habitacion.TIPO + "</td>";
+                        tableContent += "<td>" + habitacion.ESTADO + "</td>";
+                        tableContent += "<td><button class='btn btn-primary' onclick='editHabitacion(\"" + habitacion.HABITACIONID + "\")'>Editar</button></td>";
+                        tableContent += "<td><button class='btn btn-danger' onclick='deleteHabitacion(\"" + habitacion.HABITACIONID + "\")'>Borrar</button></td>";
+                        tableContent += "</tr>";
+                    });
+                    $("#habitacionTable tbody").html(tableContent);
+                });
+            }
+
+            window.editHabitacion = function(habitacionId) {
+                // Redirect to the edit page with the habitacion's ID as a query parameter
+                window.location.href = "editarHabitacion.html?habitacionId=" + habitacionId;
+            };
+
+            window.deleteHabitacion = function(habitacionId) {
+                Swal.fire({
+                    title: "¿Está seguro de que desea borrar esta habitación?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Sí",
+                    denyButtonText: "No",
+                    theme: "light"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.post("GestionHabitacionesServlet?action=borrar", {
+                            HABITACIONID: habitacionId
+                        }, function (response) {
+                            Swal.fire({
+                                title: response.status === "success" ? "¡Habitación borrada correctamente!" : "Error al borrar habitación",
+                                icon: response.status === "success" ? "success" : "error"
+                            });
+                            loadHabitaciones();
+                        }, "json");
+                    } else if (result.isDenied) {
+                        Swal.fire("Acción cancelada", "", "info");
+                    }
+                });
+            };
+
+            $("#refreshButton").click(function() {
+                loadHabitaciones();
+            });
+
+            loadHabitaciones();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <br> <br> <br> <br> <br>
+        <h1 class="text-center text-black">Gestión de Habitaciones</h1>
+        <br>
+        <button onclick="window.location.href='vistahabitaciones.html'" type="button" class="btn btn-primary bi bi-arrow-return-left">Regresar</button>
+        <br> <br>
+        <table id="habitacionTable" class="table table-bordered table-striped table-light">
+            <thead>
+                <tr>
+                    <th>ID de Habitación</th>
+                    <th>Número de Habitación</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Content dynamically generated -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

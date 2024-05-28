@@ -1,50 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
-    <title> ARANGO - Registro de Habitacion</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Habitación</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-
 <body>
-
 <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4>Registro de Habitacion</h4>
+                    <h2>Registro de Habitación</h2>
                 </div>
-
                 <div class="card-body">
                     <!-- Formulario que envía los datos al servlet -->
-                    <form id="habitacionForm">
+                    <form id="habitacionForm" action="RegistrarHabitacion" method="post">
                         <div class="form-group">
-                            <label for="HABITACIONID">HABITACIONID</label>
-                            <input type="text" class="form-control" id="HABITACIONID" name="HABITACIONID" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="NUMEROHABITACION">NUMEROHABITACION</label>
+                            <label for="NUMEROHABITACION">Número de Habitación:</label>
                             <input type="text" class="form-control" id="NUMEROHABITACION" name="NUMEROHABITACION" required>
                         </div>
                         <div class="form-group">
-                            <label for="TIPO">TIPO</label>
+                            <label for="TIPO">Tipo:</label>
                             <input type="text" class="form-control" id="TIPO" name="TIPO" required>
                         </div>
                         <div class="form-group">
-                            <label for="ESTADO">ESTADO</label>
+                            <label for="ESTADO">Estado:</label>
                             <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Registrar cama</button>
+                        <button type="submit" class="btn btn-primary bi bi-plus">Registrar Habitación</button>
+                        <button onclick="window.location.href='vistahabitaciones.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>

@@ -21,7 +21,6 @@ public class RegistrarHabitacion extends HttpServlet {
             throws ServletException, IOException {
 
         // Obtener parámetros del formulario
-        String HABITACIONID = request.getParameter("HABITACIONID");
         String NUMEROHABITACION = request.getParameter("NUMEROHABITACION");
         String TIPO = request.getParameter("TIPO");
         String ESTADO = request.getParameter("ESTADO");
@@ -29,34 +28,33 @@ public class RegistrarHabitacion extends HttpServlet {
         // Establecer conexión a la base de datos Oracle
         try {
             String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
-            String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe"; // Reemplaza con tu URL de conexión
-            String usuario = "HOSPITAL"; // Reemplaza con tu usuario de Oracle
-            String contraseña = "1234"; // Reemplaza con tu contraseña de Oracle
+            String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe"; // Replace with your connection URL
+            String usuario = "HOSPITAL"; // Replace with your Oracle username
+            String contraseña = "1234"; // Replace with your Oracle password
 
             Class.forName(jdbcDriver);
             Connection conexion = DriverManager.getConnection(jdbcUrl, usuario, contraseña);
 
             // Preparar la sentencia SQL para la inserción
-            String sql = "INSERT INTO HABITACIONES (HABITACIONID, NUMEROHABITACION, TIPO, ESTADO) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO HABITACIONES (NUMEROHABITACION, TIPO, ESTADO) VALUES (?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(sql);
-            statement.setString(1, HABITACIONID);
-            statement.setString(2, NUMEROHABITACION);
-            statement.setString(3, TIPO);
-            statement.setString(4, ESTADO);
+            statement.setString(1, NUMEROHABITACION);
+            statement.setString(2, TIPO);
+            statement.setString(3, ESTADO);
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
-                // Registro exitoso
+                // Successful registration
                 response.setContentType("text/html");
                 PrintWriter out = response.getWriter();
                 out.println("<html><body>");
-                out.println("<h3>¡Registro exitoso!</h3>");
-                out.println("<p>La habitación se ha registrado correctamente en la base de datos.</p>");
+                out.println("<h3>Registro exitoso</h3>");
+                out.println("<p>Los datos de la habitación se han registrado correctamente en la base de datos.</p>");
                 out.println("<a href=\"index.html\">Regresar al formulario</a>");
                 out.println("</body></html>");
             } else {
-                // Registro fallido
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar habitación.");
+                // Failed registration
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar la habitación.");
             }
 
             statement.close();

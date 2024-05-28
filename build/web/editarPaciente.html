@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Paciente</title>
     <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
-  
+
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
@@ -18,32 +18,33 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h2>EDITAR PACIENTES</h2>
+                        <h2>EDITAR PACIENTE</h2>
                     </div>
                     <div class="card-body">
                         <!-- Formulario que envía los datos al servlet -->
                         <form id="editPatientForm">
+                            <div class="form-group">
+                                <label for="DPI">DPI:</label>
+                                <input type="text" class="form-control" id="DPI" name="DPI" required readonly>
+                            </div>
                             <div class="form-group">
                                 <label for="NOMBRE">Nombre:</label>
                                 <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
                             </div>
                             <div class="form-group">
                                 <label for="EDAD">Edad:</label>
-                                <input type="text" class="form-control" id="EDAD" name="EDAD" required>
+                                <input type="number" class="form-control" id="EDAD" name="EDAD" required>
                             </div>
                             <div class="form-group">
                                 <label for="GENERO">Género:</label>
-                                <select class="form-control" id="GENERO" name="GENERO" required>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Femenino</option>
-                                </select>
+                                <input type="text" class="form-control" id="GENERO" name="GENERO" required>
                             </div>
                             <div class="form-group">
-                                <label for="FECHAINGRESO">Fecha Ingreso:</label>
-                                <input type="date" class="form-control" id="FECHAINGRESO" name="FECHAINGRESO">
+                                <label for="FECHA_INGRESO">Fecha de Ingreso:</label>
+                                <input type="date" class="form-control" id="FECHA_INGRESO" name="FECHA_INGRESO" required>
                             </div>
                             <button type="submit" class="btn btn-primary bi bi-plus">Actualizar</button>
-                            <button onclick="window.location.href='vistapacientes.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                            <button onclick="window.location.href='vistaPacientes.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
                         </form>
                     </div>
                 </div>
@@ -52,19 +53,29 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Retrieve DPI from query parameters
+            // Retrieve patient DPI from query parameters
             const urlParams = new URLSearchParams(window.location.search);
             const dpi = urlParams.get('dpi');
 
             // Fetch patient data using AJAX
             $.getJSON("GestionPacientesServlet?action=obtener&dpi=" + dpi, function (data) {
-                // Pre-fill form fields with patient data
-                $("#NOMBRE").val(data.nombre);
-                $("#EDAD").val(data.edad);
-                $("#GENERO").val(data.genero);
-                $("#FECHAINGRESO").val(data.fechaIngreso);
+                if (data.status !== 'error') {
+                    // Pre-fill form fields with patient data
+                    $("#DPI").val(data.DPI);
+                    $("#NOMBRE").val(data.NOMBRE);
+                    $("#EDAD").val(data.EDAD);
+                    $("#GENERO").val(data.GENERO);
+                    $("#FECHA_INGRESO").val(data.FECHA_INGRESO);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un error al obtener los datos del paciente.'
+                    });
+                }
             });
 
             // Submit form data to update patient
@@ -73,22 +84,35 @@
 
                 // Get form data
                 var formData = {
-                    DPI: dpi,
+                    DPI: $("#DPI").val(),
                     NOMBRE: $("#NOMBRE").val(),
                     EDAD: $("#EDAD").val(),
                     GENERO: $("#GENERO").val(),
-                    FECHA_INGRESO: $("#FECHAINGRESO").val()
+                    FECHA_INGRESO: $("#FECHA_INGRESO").val()
                 };
 
                 // Send AJAX request to update patient
                 $.post("GestionPacientesServlet?action=editar", formData, function (response) {
-                    alert(response.message);
-                    // Redirect back to the patient list page after updating
-                    window.location.href = "TablaPacientes.html";
-                }, "json");
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Redirect back to the patient list page after updating
+                        window.location.href = "TablaPacientes.html";
+                    });
+                }, "json").fail(function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un error al actualizar el paciente.'
+                    });
+                });
             });
         });
     </script>
-
 </body>
 </html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Prescripciones</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function loadPrescriptions() {
+                $.getJSON("GestionPrescripcionesServlet?action=mostrar", function (data) {
+                    var tableContent = "";
+                    $.each(data, function (key, prescription) {
+                        tableContent += "<tr>";
+                        tableContent += "<td>" + prescription.PRESCRIPCIONID + "</td>";
+                        tableContent += "<td>" + prescription.DPI + "</td>";
+                        tableContent += "<td>" + prescription.MEDICAMENTOID + "</td>";
+                        tableContent += "<td>" + prescription.CANTIDAD + "</td>";
+                        tableContent += "<td>" + prescription.FECHA + "</td>";
+                        tableContent += "<td><button class='btn btn-primary' onclick='editPrescription(\"" + prescription.PRESCRIPCIONID + "\")'>Editar</button></td>";
+                        tableContent += "<td><button class='btn btn-danger' onclick='deletePrescription(\"" + prescription.PRESCRIPCIONID + "\")'>Borrar</button></td>";
+                        tableContent += "</tr>";
+                    });
+                    $("#prescriptionTable tbody").html(tableContent);
+                });
+            }
+
+            window.editPrescription = function(prescriptionId) {
+                // Redirect to the edit page with the prescription's ID as a query parameter
+                window.location.href = "editarPrescripciones.html?prescriptionId=" + prescriptionId;
+            };
+
+            window.deletePrescription = function(prescriptionId) {
+                Swal.fire({
+                    title: "¿Está seguro de que desea borrar esta prescripción?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Sí",
+                    denyButtonText: "No",
+                    theme: "light"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.post("GestionPrescripcionesServlet?action=borrar", {
+                            PRESCRIPCIONID: prescriptionId
+                        }, function (response) {
+                            Swal.fire({
+                                title: response.status === "success" ? "¡Prescripción borrada correctamente!" : "Error al borrar prescripción",
+                                icon: response.status === "success" ? "success" : "error"
+                            });
+                            loadPrescriptions();
+                        }, "json");
+                    } else if (result.isDenied) {
+                        Swal.fire("Acción cancelada", "", "info");
+                    }
+                });
+            };
+
+            $("#refreshButton").click(function() {
+                loadPrescriptions();
+            });
+
+            loadPrescriptions();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <br> <br> <br> <br> <br>
+        <h1 class="text-center text-black">Gestión de Prescripciones</h1>
+        <br>
+        <button onclick="window.location.href='vistamedicamentos.html'" type="button" class="btn btn-primary bi bi-arrow-return-left">Regresar</button>
+        <br> <br>
+        <table id="prescriptionTable" class="table table-bordered table-striped table-light">
+            <thead>
+                <tr>
+                    <th>ID de Prescripción</th>
+                    <th>DPI</th>
+                    <th>ID de Medicamento</th>
+                    <th>Cantidad</th>
+                    <th>Fecha</th>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Contenido generado dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
