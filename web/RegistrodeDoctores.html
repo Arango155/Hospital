@@ -1,67 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    
+  <meta charset="UTF-8">
   <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
-    
-    <title>ARANGO - Registro de Clientes</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Doctores</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-
 <body>
-    
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                       <h4>Registro de Doctores</h4>
-                    </div>
-       
-                    <div class="card-body">
-                        <!-- Formulario que envía los datos al servlet -->
-                        <form action="RegistrarDoctorServlet" method="post">
-                            
-                            <div class="form-group">
-                                <label for="DOCTORID">DoctorID</label>
-                                <input type="text" class="form-control" id="DOCTORID" name="DOCTORID" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="NOMBRE">Nombre</label>
-                                <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" required>
-                            </div>
-                           <div class="form-group">
-                                <label for="ESPECIALIDADID">Especialidad</label>
-                                <input type="text" class="form-control" id="ESPECIALIDADID" name="ESPECIALIDADID" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Registrar Doctor</button>
-                        </form>
-                    </div>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Registro de Doctores</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Formulario que envía los datos al servlet -->
+                    <form id="doctorForm">
+                        <div class="form-group">
+                            <label for="DOCTORID">ID de Doctor:</label>
+                            <input type="text" class="form-control" id="DOCTORID" name="DOCTORID">
+                        </div>
+                        <div class="form-group">
+                            <label for="NOMBRE">Nombre:</label>
+                            <input type="text" class="form-control" id="NOMBRE" name="NOMBRE">
+                        </div>
+                        <div class="form-group">
+                            <label for="ESPECIALIDADID">ID de Especialidad:</label>
+                            <input type="text" class="form-control" id="ESPECIALIDADID" name="ESPECIALIDADID">
+                        </div>
+                        <button type="submit" class="btn btn-primary bi bi-check">Registrar Doctor</button>
+                        <button onclick="window.location.href='vistadoctores.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-        function validarFormulario() {
-            // Lógica de validación del formulario (si es necesario)
-            
-            // Ejemplo de alerta de error
-            // Esta alerta se mostrará si el formulario se envía sin completar todos los campos requeridos
-            var DOCTORID = document.getElementById("DOCTORID").value;
-            var NOMBRE = document.getElementById("NOMBRE").value;
-            // Verificar si los campos requeridos están vacíos
-            if (DOCTORID === "" || NOMBRE === "") {
-                alert("Por favor, complete todos los campos requeridos");
-                return false; // Detener el envío del formulario
-            }
-            
-            // Aquí puedes agregar más lógica de validación según tus necesidades
-            
-            return true; // Permitir el envío del formulario si pasa todas las validaciones
-        }
-    </script>
+    $(document).ready(function() {
+        $('#doctorForm').submit(function(event) {
+            event.preventDefault(); // Evitar envío del formulario por defecto
+            var form = $(this);
+            var formData = form.serialize(); // Obtener datos del formulario
+            // Enviar solicitud AJAX al servlet
+            $.ajax({
+                type: 'POST',
+                url: 'RegistrarDoctorServlet', // URL del servlet
+                data: formData,
+                success: function(response) {
+                    // Mostrar SweetAlert con el mensaje de éxito
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: '¡Registro exitoso!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Manejar errores si es necesario
+                    console.error(xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hubo un error al registrar el doctor.'
+                    });
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

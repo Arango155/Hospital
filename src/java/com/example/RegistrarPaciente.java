@@ -35,7 +35,7 @@ public class RegistrarPaciente extends HttpServlet {
             Connection conexion = DriverManager.getConnection(jdbcUrl, usuario, contraseña);
 
             // Preparar la sentencia SQL para la inserción
-            String sql = "INSERT INTO PACIENTES (DPI, NOMBRE, EDAD, GENERO) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO PACIENTES (DPI, NOMBRE, EDAD, GENERO, FECHA_INGRESO) VALUES (?, ?, ?, ?, SYSDATE)";
             PreparedStatement statement = conexion.prepareStatement(sql);
             statement.setString(1, DPI);
             statement.setString(2, NOMBRE);
@@ -45,23 +45,23 @@ public class RegistrarPaciente extends HttpServlet {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
                 // Registro exitoso
-                response.setContentType("text/html");
+                response.setContentType("text/plain");
                 PrintWriter out = response.getWriter();
-                out.println("<html><body>");
-                out.println("<h3>¡Registro exitoso!</h3>");
-                out.println("<p>Los datos del medicamento se han registrado correctamente en la base de datos.</p>");
-                out.println("<a href=\"index.html\">Regresar al formulario</a>");
-                out.println("</body></html>");
+                out.print("success");
             } else {
                 // Registro fallido
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar paciente.");
+                response.setContentType("text/plain");
+                PrintWriter out = response.getWriter();
+                out.print("error");
             }
 
             statement.close();
             conexion.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error de conexión a la base de datos.");
+            response.setContentType("text/plain");
+            PrintWriter out = response.getWriter();
+            out.print("error");
         }
     }
 
