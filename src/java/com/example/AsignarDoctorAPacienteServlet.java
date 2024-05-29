@@ -10,17 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/AsignarDoctorPacienteServlet")
-public class AsignarDoctorPacienteServlet extends HttpServlet {
+@WebServlet("/AsignarDoctorAPacienteServlet")
+public class AsignarDoctorAPacienteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Obtener parámetros del formulario
-        int asignacionID = Integer.parseInt(request.getParameter("asignacionID"));
-        int dpi = Integer.parseInt(request.getParameter("dpi"));
-        int doctorID = Integer.parseInt(request.getParameter("doctorID"));
-        String fechaAsignacion = request.getParameter("fechaAsignacion");
+        int dpi = Integer.parseInt(request.getParameter("p_DPI"));
+        int doctorID = Integer.parseInt(request.getParameter("p_DoctorID"));
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -35,12 +33,10 @@ public class AsignarDoctorPacienteServlet extends HttpServlet {
             Class.forName(jdbcDriver);
             Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-            String sql = "{call Asignar_Doctor_Paciente(?, ?, ?, ?)}";
+            String sql = "{call AsignarDoctorAPaciente(?, ?)}";
             CallableStatement statement = connection.prepareCall(sql);
-            statement.setInt(1, asignacionID);
-            statement.setInt(2, dpi);
-            statement.setInt(3, doctorID);
-            statement.setString(4, fechaAsignacion);
+            statement.setInt(1, dpi);
+            statement.setInt(2, doctorID);
 
             statement.execute();
             statement.close();
@@ -53,4 +49,3 @@ public class AsignarDoctorPacienteServlet extends HttpServlet {
         }
     }
 }
-

@@ -1,81 +1,92 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   
-    
-      <meta charset="UTF-8">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <meta charset="UTF-8">
-
+  <meta charset="UTF-8">
   <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARANGO - ASIGNARDOCTOR</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>ASIGNAR DOCTOR</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-   <link rel="stylesheet" href="css/styles.css"/>   <script src="js/javascript.js"></script>
-
 </head>
 <body>
-    <div class="container">
-        <div class="form-header">
-          
-            <h2>Asignar Doctor a Paciente</h2>
-        </div>
-        <form id="asignacionForm" action="AsignarDoctorPacienteServlet" method="post">
-            <div class="form-group">
-                <label for="asignacionID">ID de Asignación</label>
-                <input type="number" class="form-control" id="asignacionID" name="asignacionID" required>
-            </div>
-            <div class="form-group">
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header text-center">
+            <h2>Asignar Doctor</h2>
+          </div>
+          <div class="card-body">
+            <form id="asignacionForm" action="AsignarDoctorAPacienteServlet" method="post">
+              <div class="form-group">
                 <label for="dpi">DPI</label>
-                <input type="number" class="form-control" id="dpi" name="dpi" required>
-            </div>
-            <div class="form-group">
+                <input type="number" class="form-control" id="dpi" name="p_DPI" required>
+              </div>
+              <div class="form-group">
                 <label for="doctorID">ID del Doctor</label>
-                <input type="number" class="form-control" id="doctorID" name="doctorID" required>
-            </div>
-            <div class="form-group">
-                <label for="fechaAsignacion">Fecha de Asignación (DD/MM/YYYY)</label>
-                <input type="date" class="form-control" id="fechaAsignacion" name="fechaAsignacion" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Asignar Doctor</button>
-            <div id="responseMessage"></div>
-        </form>
+                <input type="number" class="form-control" id="doctorID" name="p_DoctorID" required>
+              </div>
+              <button type="submit" class="btn btn-primary bi bi-plus">Asignar </button>
+              <button onclick="window.location.href='vistaasignaciones.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script>
-        document.getElementById("asignacionForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            const params = new URLSearchParams(formData).toString();
-
-            fetch("AsignarDoctorPacienteServlet", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: params
-            })
-            .then(response => response.json())
-            .then(data => {
-                const responseMessage = document.getElementById("responseMessage");
-                if (data.status === "success") {
-                    responseMessage.innerHTML = "<div class='alert alert-success'>¡Asignación de doctor a paciente realizada correctamente!</div>";
-                } else {
-                    responseMessage.innerHTML = "<div class='alert alert-danger'>Error: " + data.message + "</div>";
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                const responseMessage = document.getElementById("responseMessage");
-                responseMessage.innerHTML = "<div class='alert alert-danger'>Error de conexión.</div>";
-            });
+  </div>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script>
+    document.getElementById("asignacionForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      
+      fetch(form.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams(formData)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.status === "success") {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: '¡Asignación de doctor a paciente realizada correctamente!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload(); // Reload the page or redirect to another page
+            }
+          });
+        } else {
+          throw new Error("Error: " + data.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message || 'Hubo un error de conexión.'
         });
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
