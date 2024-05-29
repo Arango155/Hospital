@@ -19,22 +19,33 @@
                         tableContent += "<tr>";
                         tableContent += "<td>" + salida.DPI + "</td>";
                         tableContent += "<td>" + salida.FECHA_SALIDA + "</td>";
-
                         tableContent += "</tr>";
                     });
                     $("#salidaTable tbody").html(tableContent);
                 });
             }
 
-        
-
-
             $("#refreshButton").click(function() {
                 loadSalidas();
             });
 
+            $("#excelButton").click(function() {
+                exportTableToExcel();
+            });
+
             loadSalidas();
         });
+
+        function exportTableToExcel() {
+            var table = document.getElementById("salidaTable");
+            var html = table.outerHTML;
+            var url = 'data:application/vnd.ms-excel,' + escape(html);
+
+            var link = document.createElement("a");
+            link.href = url;
+            link.download = "bitacora_pacientes.xls";
+            link.click();
+        }
     </script>
 </head>
 <body>
@@ -43,13 +54,13 @@
         <h1 class="text-center text-black">Bitacora de Pacientes</h1>
         <br>
         <button onclick="window.location.href='home.html'" type="button" class="btn btn-primary bi bi-arrow-return-left">Regresar</button>
+        <button id="excelButton" type="button" class="btn btn-success bi bi-file-excel">Excel</button>
         <br> <br>
         <table id="salidaTable" class="table table-bordered table-striped table-light">
             <thead>
                 <tr>
                     <th>DPI</th>
                     <th>Fecha de Salida</th>
-                  
                 </tr>
             </thead>
             <tbody>
