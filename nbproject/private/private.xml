@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/RegistrarUsuario.html</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/src/java/com/example/loginServlet.java</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/HomeFarmaceutico.html</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/HomeAdmin.html</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/index.html</file>
-            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/home2.html</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/AsignarDoctorPaciente.html</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/RegistrarPaciente.html</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/RegistrarCama.html</file>
+            <file>file:/C:/Users/jdara/OneDrive/Escritorio/Hospital/web/vistapacientes.html</file>
         </group>
     </open-files>
 </project-private>
