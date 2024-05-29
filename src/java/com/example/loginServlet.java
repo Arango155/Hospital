@@ -65,10 +65,16 @@ public class loginServlet extends HttpServlet {
             int count = resultSet.getInt(1);
 
             if (count > 0) {
-                if ("admin".equals(userType)) {
-                    out.write("{\"status\":\"success\",\"redirect\":\"home.html\"}");
-                } else {
-                    out.write("{\"status\":\"success\",\"redirect\":\"home.html\"}");
+                if ("Admin".equals(userType)) {
+                    out.write("{\"status\":\"success\",\"redirect\":\"HomeAdmin.html\"}");
+                } else if ("Enfermero".equals(userType)) {
+                    out.write("{\"status\":\"success\",\"redirect\":\"HomeEnfermero.html\"}");
+                } else if ("Doctor".equals(userType)) {
+                    out.write("{\"status\":\"success\",\"redirect\":\"HomeDoctor.html\"}");
+                }else if ("Recepcionista".equals(userType)) {
+                    out.write("{\"status\":\"success\",\"redirect\":\"HomeRecepcionista.html\"}");
+                }else if ("Farmaceutico".equals(userType)) {
+                    out.write("{\"status\":\"success\",\"redirect\":\"HomeFarmaceutico.html\"}");
                 }
             } else {
                 out.write("{\"status\":\"error\",\"message\":\"Las credenciales no son validas.\"}");

@@ -5,7 +5,7 @@
    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registro de Pacientes</title>
+  <title>Registro de Usuarios</title>
   <!-- Bootstrap CSS -->
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- SweetAlert2 CSS -->
@@ -18,34 +18,30 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>Registro de Pacientes</h2>
+                    <h2>Registro de Usuarios</h2>
                 </div>
                 <div class="card-body">
                     <!-- Formulario que envía los datos al servlet -->
-                    <form id="pacienteForm">
+                    <form id="usuarioForm">
                         <div class="form-group">
-                            <label for="DPI">DPI:</label>
-                            <input type="text" class="form-control" id="DPI" name="DPI">
+                            <label for="USERNAME">Nombre de Usuario:</label>
+                            <input type="text" class="form-control" id="USERNAME" name="USERNAME">
                         </div>
                         <div class="form-group">
-                            <label for="NOMBRE">Nombre:</label>
-                            <input type="text" class="form-control" id="NOMBRE" name="NOMBRE">
+                            <label for="PASSWORD">Contraseña:</label>
+                            <input type="password" class="form-control" id="PASSWORD" name="PASSWORD">
                         </div>
                         <div class="form-group">
-                            <label for="EDAD">Edad:</label>
-                            <input type="text" class="form-control" id="EDAD" name="EDAD">
+                            <label for="USER_TYPE">Tipo de Usuario:</label>
+                            <select class="form-control" id="USER_TYPE" name="USER_TYPE" required>
+                                <option value="Admin">Administrador</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Nurse">Enfermero/a</option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label for="GENERO">Género:</label>
-                         
-                                <select class="form-control" id="GENERO" name="GENERO" required>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Femenino</option>
-                                </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary bi bi-plus">Registrar Paciente</button>
+                        <button type="submit" class="btn btn-primary bi bi-plus">Registrar Usuario</button>
                         
-                           <button onclick="window.location.href='vistapacientes.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                           <button onclick="window.location.href='index.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
                     </form>
                 </div>
             </div>
@@ -60,24 +56,24 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $(document).ready(function() {
-        $('#pacienteForm').submit(function(event) {
+        $('#usuarioForm').submit(function(event) {
             event.preventDefault(); // Evitar envío del formulario por defecto
             var form = $(this);
             var formData = form.serialize(); // Obtener datos del formulario
             // Enviar solicitud AJAX al servlet
             $.ajax({
                 type: 'POST',
-                url: 'RegistrarPaciente', // URL del servlet
+                url: 'RegistrarUsuario', // URL del servlet
                 data: formData,
                 success: function(response) {
                     // Mostrar SweetAlert con el mensaje de éxito
                     Swal.fire({
                         icon: 'success',
                         title: 'Registro exitoso',
-                        text: 'El paciente se ha registrado correctamente.',
+                        text: 'El usuario se ha registrado correctamente.',
                         onClose: function() {
                             // Redirigir a página principal u otra página
-                            window.location.href = "RegistrarPaciente.html";
+                            window.location.href = "index.html";
                         }
                     });
                 },
@@ -86,7 +82,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Hubo un error al registrar el paciente.'
+                        text: 'Hubo un error al registrar el usuario.'
                     });
                     console.error(xhr.responseText);
                 }
