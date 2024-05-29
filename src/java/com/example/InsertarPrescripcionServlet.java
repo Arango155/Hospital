@@ -17,11 +17,9 @@ public class InsertarPrescripcionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Obtener parámetros del formulario
-        int prescripcionID = Integer.parseInt(request.getParameter("prescripcionID"));
-        int dpi = Integer.parseInt(request.getParameter("dpi"));
-        int medicamentoID = Integer.parseInt(request.getParameter("medicamentoID"));
-        int cantidad = Integer.parseInt(request.getParameter("cantidad"));
-        String fecha = request.getParameter("fecha");
+        int dpi = Integer.parseInt(request.getParameter("p_DPI"));
+        int medicamentoID = Integer.parseInt(request.getParameter("p_MedicamentoID"));
+        int cantidad = Integer.parseInt(request.getParameter("p_Cantidad"));
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -36,13 +34,11 @@ public class InsertarPrescripcionServlet extends HttpServlet {
             Class.forName(jdbcDriver);
             Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-            String sql = "{call Insertar_Prescripcion(?, ?, ?, ?, ?)}";
+            String sql = "{call InsertarPrescripcion(?, ?, ?)}";
             CallableStatement statement = connection.prepareCall(sql);
-            statement.setInt(1, prescripcionID);
-            statement.setInt(2, dpi);
-            statement.setInt(3, medicamentoID);
-            statement.setInt(4, cantidad);
-            statement.setString(5, fecha);
+            statement.setInt(1, dpi);
+            statement.setInt(2, medicamentoID);
+            statement.setInt(3, cantidad);
 
             statement.execute();
             statement.close();
@@ -51,7 +47,7 @@ public class InsertarPrescripcionServlet extends HttpServlet {
             out.write("{\"status\":\"success\"}");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            out.write("{\"status\":\"error\",\"message\":\"Error al insertar la prescripción: " + e.getMessage() + "\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Error al insertar prescripción: " + e.getMessage() + "\"}");
         }
     }
 }
