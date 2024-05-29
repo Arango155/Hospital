@@ -1,111 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-     
-    <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
-        <meta charset="UTF-8">
-    <title>ARANGO - Registro de Facturas</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <meta charset="UTF-8">
+  <link rel="icon" href="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hospital.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Factura</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-
 <body>
-    
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                       <h4>Registro de Facturas</h4>
-                    </div>
-       
-                    <div class="card-body">
-                        <!-- Formulario que envía los datos al servlet -->
-                        <form id="facturaForm" action="RegistrarFacturas" method="post" onsubmit="return validarFormulario()">
-                            
-                            <div class="form-group">
-                                <label for="DPI">DPI</label>
-                                <input type="number" class="form-control" id="DPI" name="DPI" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="MONTO">Monto</label>
-                                <input type="number" step="0.01" class="form-control" id="MONTO" name="MONTO" required>
-                            </div>
-                           <div class="form-group">
-                                <label for="FECHAEMISION">Fecha de Emisión</label>
-                                <input type="date" class="form-control" id="FECHAEMISION" name="FECHAEMISION" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="ESTADO">Estado</label>
-                                <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
-                            </div>
-                       
-                        
-         <button type="submit" class="btn btn-primary bi bi-plus">Registrar Factura</button>
-                        
-                           <button onclick="window.location.href='vistafacturas.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
-                                         
-                        </form>
-                    </div>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Registro de Factura</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Formulario que envía los datos al servlet -->
+                    <form id="facturaForm" action="RegistrarFactura" method="post">
+                        <div class="form-group">
+                            <label for="FACTURAID">ID de Factura:</label>
+                            <input type="text" class="form-control" id="FACTURAID" name="FACTURAID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="DPI">DPI:</label>
+                            <input type="number" class="form-control" id="DPI" name="DPI" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="MONTO">Monto:</label>
+                            <input type="number" step="0.01" class="form-control" id="MONTO" name="MONTO" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ESTADO">Estado:</label>
+                            <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary bi bi-plus">Registrar Factura</button>
+                        <button onclick="window.location.href='vistafacturas.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-        $(document).ready(function() {
-            $('#facturaForm').submit(function(event) {
-                event.preventDefault(); // Evitar envío del formulario por defecto
-                var form = $(this);
-                var formData = form.serialize(); // Obtener datos del formulario
-                // Enviar solicitud AJAX al servlet
-                $.ajax({
-                    type: 'POST',
-                    url: 'RegistrarFacturas', // URL del servlet
-                    data: formData,
-                    success: function(response) {
-                        // Mostrar SweetAlert con el mensaje de éxito
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Registro exitoso',
-                            text: 'La factura se ha registrado correctamente.',
-                            onClose: function() {
-                                // Redirigir a página principal u otra página
-                                window.location.href = "facturas.html";
-                            }
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        // Mostrar SweetAlert con mensaje de error
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Hubo un error al registrar la factura.'
-                        });
-                        console.error(xhr.responseText);
-                    }
-                });
+</div>
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    $(document).ready(function() {
+        $('#facturaForm').submit(function(event) {
+            event.preventDefault(); // Evitar envío del formulario por defecto
+            var form = $(this);
+            var formData = form.serialize(); // Obtener datos del formulario
+            // Enviar solicitud AJAX al servlet
+            $.ajax({
+                type: 'POST',
+                url: 'RegistrarFactura', // URL del servlet
+                data: formData,
+                success: function(response) {
+                    // Mostrar SweetAlert con el mensaje de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registro exitoso',
+                        text: 'La factura se ha registrado correctamente.',
+                        onClose: function() {
+                            // Redirigir a página principal u otra página
+                            window.location.href = "RegistrarFactura.html";
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Mostrar SweetAlert con mensaje de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Hubo un error al registrar la factura.'
+                    });
+                    console.error(xhr.responseText);
+                }
             });
         });
-
-        function validarFormulario() {
-            var DPI = document.getElementById("DPI").value;
-            var MONTO = document.getElementById("MONTO").value;
-            var FECHAEMISION = document.getElementById("FECHAEMISION").value;
-            var ESTADO = document.getElementById("ESTADO").value;
-
-            if (DPI === "" || MONTO === "" || FECHAEMISION === "" || ESTADO === "") {
-                alert("Por favor, complete todos los campos requeridos");
-                return false;
-            }
-            return true;
-        }
-    </script>
+    });
+</script>
 </body>
 </html>
-

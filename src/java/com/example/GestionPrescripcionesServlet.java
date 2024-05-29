@@ -80,28 +80,28 @@ public class GestionPrescripcionesServlet extends HttpServlet {
         out.write(jsonBuilder.toString());
     }
 
-    private void editarPrescripcion(HttpServletRequest request, PrintWriter out, Connection connection) throws SQLException {
-        String prescripcionId = request.getParameter("PRESCRIPCIONID");
-        String dpi = request.getParameter("DPI");
-        int medicamentoId = Integer.parseInt(request.getParameter("MEDICAMENTOID"));
-        int cantidad = Integer.parseInt(request.getParameter("CANTIDAD"));
-        String fecha = request.getParameter("FECHA");
+ private void editarPrescripcion(HttpServletRequest request, PrintWriter out, Connection connection) throws SQLException {
+    String prescripcionId = request.getParameter("PRESCRIPCIONID");
+    String dpi = request.getParameter("DPI");
+    int medicamentoId = Integer.parseInt(request.getParameter("MEDICAMENTOID"));
+    int cantidad = Integer.parseInt(request.getParameter("CANTIDAD"));
 
-        String sql = "UPDATE PRESCRIPCIONES SET DPI = ?, MEDICAMENTOID = ?, CANTIDAD = ?, FECHA = ? WHERE PRESCRIPCIONID = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, dpi);
-            statement.setInt(2, medicamentoId);
-            statement.setInt(3, cantidad);
-            statement.setString(4, fecha);
-            statement.setString(5, prescripcionId);
-            int rowsUpdated = statement.executeUpdate();
-            if (rowsUpdated > 0) {
-                out.write("{\"status\":\"success\",\"message\":\"Prescripción actualizada correctamente.\"}");
-            } else {
-                out.write("{\"status\":\"error\",\"message\":\"No se encontró la prescripción.\"}");
-            }
+    // Use a PreparedStatement without the FECHA column in the update statement
+    String sql = "UPDATE PRESCRIPCIONES SET DPI = ?, MEDICAMENTOID = ?, CANTIDAD = ? WHERE PRESCRIPCIONID = ?";
+    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setString(1, dpi);
+        statement.setInt(2, medicamentoId);
+        statement.setInt(3, cantidad);
+        statement.setString(4, prescripcionId);
+        int rowsUpdated = statement.executeUpdate();
+        if (rowsUpdated > 0) {
+            out.write("{\"status\":\"success\",\"message\":\"Prescripción actualizada correctamente.\"}");
+        } else {
+            out.write("{\"status\":\"error\",\"message\":\"No se encontró la prescripción.\"}");
         }
     }
+}
+
 
     private void borrarPrescripcion(HttpServletRequest request, PrintWriter out, Connection connection) throws SQLException {
         String prescripcionId = request.getParameter("PRESCRIPCIONID");

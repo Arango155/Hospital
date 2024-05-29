@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/RegistrarFacturas")
-public class RegistrarFacturas extends HttpServlet {
+@WebServlet(name = "RegistrarFactura", urlPatterns = {"/RegistrarFactura"})
+public class RegistrarFactura extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,9 +21,9 @@ public class RegistrarFacturas extends HttpServlet {
             throws ServletException, IOException {
 
         // Obtener parámetros del formulario
-        int DPI = Integer.parseInt(request.getParameter("DPI"));
-        double MONTO = Double.parseDouble(request.getParameter("MONTO"));
-        String FECHAEMISION = request.getParameter("FECHAEMISION");
+        String FACTURAID = request.getParameter("FACTURAID");
+        String DPI = request.getParameter("DPI");
+        String MONTO = request.getParameter("MONTO");
         String ESTADO = request.getParameter("ESTADO");
 
         // Establecer conexión a la base de datos Oracle
@@ -37,16 +37,16 @@ public class RegistrarFacturas extends HttpServlet {
             Connection conexion = DriverManager.getConnection(jdbcUrl, usuario, contraseña);
 
             // Preparar la sentencia SQL para la inserción
-            String sql = "INSERT INTO FACTURAS (DPI, MONTO, FECHAEMISION, ESTADO) VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?)";
+            String sql = "INSERT INTO FACTURAS (FACTURAID, DPI, MONTO, ESTADO) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(sql);
-            statement.setInt(1, DPI);
-            statement.setDouble(2, MONTO);
-            statement.setString(3, FECHAEMISION);
+            statement.setString(1, FACTURAID);
+            statement.setString(2, DPI);
+            statement.setString(3, MONTO);
             statement.setString(4, ESTADO);
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
-                // Registration successful
+                // Registro exitoso
                 response.setContentType("text/html");
                 PrintWriter out = response.getWriter();
                 out.println("<html><body>");
@@ -55,15 +55,15 @@ public class RegistrarFacturas extends HttpServlet {
                 out.println("<a href=\"index.html\">Regresar al formulario</a>");
                 out.println("</body></html>");
             } else {
-                // Registration failed
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar factura.");
+                // Registro fallido
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar la factura.");
             }
 
             statement.close();
             conexion.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error de conexión a la base de datos: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error de conexión a la base de datos.");
         }
     }
 
@@ -81,6 +81,6 @@ public class RegistrarFacturas extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet para registrar facturas en la base de datos.";
     }
 }

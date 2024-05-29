@@ -68,44 +68,40 @@ public class GestionFacturasServlet extends HttpServlet {
                     first = false;
                 }
                 jsonBuilder.append("{")
-                           .append("\"FACTURAID\":\"").append(resultSet.getString("FACTURAID")).append("\",")
-                           .append("\"DPI\":\"").append(resultSet.getString("DPI")).append("\",")
-                           .append("\"MONTO\":\"").append(resultSet.getString("MONTO")).append("\",")
-                           .append("\"FECHAEMISION\":\"").append(resultSet.getString("FECHAEMISION")).append("\",")
-                           .append("\"ESTADO\":\"").append(resultSet.getString("ESTADO")).append("\"")
-                           .append("}");
+                        .append("\"FACTURAID\":\"").append(resultSet.getString("FACTURAID")).append("\",")
+                        .append("\"DPI\":\"").append(resultSet.getString("DPI")).append("\",")
+                        .append("\"MONTO\":\"").append(resultSet.getString("MONTO")).append("\",")
+                        .append("\"FECHAEMISION\":\"").append(resultSet.getString("FECHAEMISION")).append("\",")
+                        .append("\"ESTADO\":\"").append(resultSet.getString("ESTADO")).append("\"")
+                        .append("}");
             }
         }
         jsonBuilder.append("]");
         out.write(jsonBuilder.toString());
     }
 
-private void editarFactura(HttpServletRequest request, PrintWriter out, Connection connection) {
-    String facturaId = request.getParameter("FACTURAID");
-    String dpi = request.getParameter("DPI");
-    double monto = Double.parseDouble(request.getParameter("MONTO"));
-    String fechaEmision = request.getParameter("FECHAEMISION");
-    String estado = request.getParameter("ESTADO");
+    private void editarFactura(HttpServletRequest request, PrintWriter out, Connection connection) throws SQLException {
+        String facturaId = request.getParameter("FACTURAID");
+        String dpi = request.getParameter("DPI");
+        double monto = Double.parseDouble(request.getParameter("MONTO"));
+        String fechaEmision = request.getParameter("FECHAEMISION");
+        String estado = request.getParameter("ESTADO");
 
-    String sql = "UPDATE FACTURAS SET DPI = ?, MONTO = ?, FECHAEMISION = ?, ESTADO = ? WHERE FACTURAID = ?";
-    try (PreparedStatement statement = connection.prepareStatement(sql)) {
-        statement.setString(1, dpi);
-        statement.setDouble(2, monto);
-        statement.setString(3, fechaEmision);
-        statement.setString(4, estado);
-        statement.setString(5, facturaId);
-        int rowsUpdated = statement.executeUpdate();
-        if (rowsUpdated > 0) {
-            out.write("{\"status\":\"success\",\"message\":\"Factura actualizada correctamente.\"}");
-        } else {
-            out.write("{\"status\":\"error\",\"message\":\"No se encontró la factura o no se pudo actualizar.\"}");
+        String sql = "UPDATE FACTURAS SET DPI = ?, MONTO = ?, FECHAEMISION = ?, ESTADO = ? WHERE FACTURAID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, dpi);
+            statement.setDouble(2, monto);
+            statement.setString(3, fechaEmision);
+            statement.setString(4, estado);
+            statement.setString(5, facturaId);
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                out.write("{\"status\":\"success\",\"message\":\"Factura actualizada correctamente.\"}");
+            } else {
+                out.write("{\"status\":\"error\",\"message\":\"No se encontró la factura.\"}");
+            }
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        out.write("{\"status\":\"error\",\"message\":\"Error al actualizar la factura en la base de datos.\"}");
     }
-}
-
 
     private void borrarFactura(HttpServletRequest request, PrintWriter out, Connection connection) throws SQLException {
         String facturaId = request.getParameter("FACTURAID");

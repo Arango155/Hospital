@@ -22,7 +22,7 @@
                     </div>
                     <div class="card-body">
                         <!-- Formulario que envía los datos al servlet -->
-                        <form id="editInvoiceForm">
+                        <form id="editFacturaForm">
                             <div class="form-group">
                                 <label for="FACTURAID">ID de Factura:</label>
                                 <input type="text" class="form-control" id="FACTURAID" name="FACTURAID" required readonly>
@@ -33,9 +33,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="MONTO">Monto:</label>
-                                <input type="text" class="form-control" id="MONTO" name="MONTO" required>
+                                <input type="number" class="form-control" id="MONTO" name="MONTO" required>
                             </div>
-                     
+                            <div class="form-group">
+                                <label for="FECHAEMISION">Fecha de Emisión:</label>
+                                <input type="date" class="form-control" id="FECHAEMISION" name="FECHAEMISION" required readonly>
+                            </div>
                             <div class="form-group">
                                 <label for="ESTADO">Estado:</label>
                                 <input type="text" class="form-control" id="ESTADO" name="ESTADO" required>
@@ -53,18 +56,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Retrieve invoice ID from query parameters
+            // Retrieve factura ID from query parameters
             const urlParams = new URLSearchParams(window.location.search);
             const facturaId = urlParams.get('facturaId');
 
-            // Fetch invoice data using AJAX
+            // Fetch factura data using AJAX
             $.getJSON("GestionFacturasServlet?action=obtener&facturaId=" + facturaId, function (data) {
                 if (data.status !== 'error') {
-                    // Pre-fill form fields with invoice data
+                    // Pre-fill form fields with factura data
                     $("#FACTURAID").val(data.FACTURAID);
                     $("#DPI").val(data.DPI);
                     $("#MONTO").val(data.MONTO);
-            
+                    $("#FECHAEMISION").val(data.FECHAEMISION);
                     $("#ESTADO").val(data.ESTADO);
                 } else {
                     Swal.fire({
@@ -75,8 +78,8 @@
                 }
             });
 
-            // Submit form data to update invoice
-            $("#editInvoiceForm").submit(function(event) {
+            // Submit form data to update factura
+            $("#editFacturaForm").submit(function(event) {
                 event.preventDefault(); // Prevent default form submission
 
                 // Get form data
@@ -84,11 +87,11 @@
                     FACTURAID: $("#FACTURAID").val(),
                     DPI: $("#DPI").val(),
                     MONTO: $("#MONTO").val(),
-                    FECHAEMISION: $("#FECHAEMISION").val(),
+                    
                     ESTADO: $("#ESTADO").val()
                 };
 
-                // Send AJAX request to update invoice
+                // Send AJAX request to update factura
                 $.post("GestionFacturasServlet?action=editar", formData, function (response) {
                     Swal.fire({
                         position: 'center',
@@ -97,7 +100,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        // Redirect back to the invoice list page after updating
+                        // Redirect back to the factura list page after updating
                         window.location.href = "TablaFacturas.html";
                     });
                 }, "json").fail(function(xhr, status, error) {
