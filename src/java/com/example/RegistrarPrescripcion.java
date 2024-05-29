@@ -21,7 +21,6 @@ public class RegistrarPrescripcion extends HttpServlet {
             throws ServletException, IOException {
 
         // Obtener parámetros del formulario
-        String PRESCRIPCIONID = request.getParameter("PRESCRIPCIONID");
         String DPI = request.getParameter("DPI");
         String MEDICAMENTOID = request.getParameter("MEDICAMENTOID");
         String CANTIDAD = request.getParameter("CANTIDAD");
@@ -38,13 +37,12 @@ public class RegistrarPrescripcion extends HttpServlet {
             Connection conexion = DriverManager.getConnection(jdbcUrl, usuario, contraseña);
 
             // Preparar la sentencia SQL para la inserción
-            String sql = "INSERT INTO PRESCRIPCIONES (PRESCRIPCIONID, DPI, MEDICAMENTOID, CANTIDAD, FECHA) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO PRESCRIPCIONES (DPI, MEDICAMENTOID, CANTIDAD, FECHA) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = conexion.prepareStatement(sql);
-            statement.setString(1, PRESCRIPCIONID);
-            statement.setString(2, DPI);
-            statement.setString(3, MEDICAMENTOID);
-            statement.setString(4, CANTIDAD);
-            statement.setString(5, FECHA);
+            statement.setString(1, DPI);
+            statement.setString(2, MEDICAMENTOID);
+            statement.setString(3, CANTIDAD);
+            statement.setString(4, FECHA);
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {

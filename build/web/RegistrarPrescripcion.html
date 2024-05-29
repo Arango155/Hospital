@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,10 +25,7 @@
                 <div class="card-body">
                     <!-- Formulario que envía los datos al servlet -->
                     <form id="prescripcionForm" action="RegistrarPrescripcion" method="post">
-                        <div class="form-group">
-                            <label for="PRESCRIPCIONID">ID de Prescripción:</label>
-                            <input type="text" class="form-control" id="PRESCRIPCIONID" name="PRESCRIPCIONID" required>
-                        </div>
+                        <!-- Removed PRESCRIPCIONID field -->
                         <div class="form-group">
                             <label for="DPI">DPI:</label>
                             <input type="number" class="form-control" id="DPI" name="DPI" required>
@@ -38,7 +38,7 @@
                             <label for="CANTIDAD">Cantidad:</label>
                             <input type="number" class="form-control" id="CANTIDAD" name="CANTIDAD" required>
                         </div>
-                      
+                        <!-- Removed PRESCRIPCIONID field -->
                         <button type="submit" class="btn btn-primary bi bi-plus">Registrar Prescripción</button>
                         <button onclick="window.location.href='vistamedicamentos.html'" type="button" class="btn btn-secondary bi bi-arrow-return-left">Regresar</button>
                     </form>
@@ -47,6 +47,7 @@
         </div>
     </div>
 </div>
+<!-- Bootstrap JS and SweetAlert2 JS -->
 <!-- Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
